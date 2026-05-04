@@ -1,5 +1,6 @@
 import React from "react";
 import {Box} from "lucide-react";
+import { Cat } from 'lucide-react';
 import Button from "./ui/Button";
 import {useOutletContext, useRoutes} from "react-router";
 
@@ -10,7 +11,7 @@ const Navbar = () =>{
             try {
                 await signOut();
             } catch(e) {
-                console.error(`Puter sign out failed: ${e}`)
+                console.error(`Falha ao encerrar sessão com o Puter: ${e}`)
             }
 
             return;
@@ -19,7 +20,7 @@ const Navbar = () =>{
         try {
             await signIn();
         } catch (e) {
-            console.error(`Puter sign in failed: ${e}`)
+            console.error(`Falha ao iniciar sessão com o Puter: ${e}`)
         }
     };
     return (
@@ -27,13 +28,13 @@ const Navbar = () =>{
            <nav className="inner">
                <div className="left">
                    <div className="brand">
-                     <Box className="logo" />
-                       <span className="name">Skel Render</span>
+                     <Cat className="logo" />
+                       <span className="name">Miaufy</span>
                    </div>
                    <ul className="links">
-                       <a href="#">Product</a>
-                       <a href="#">Pricing</a>
-                       <a href="#">Community</a>
+                       <a href="#">Produto</a>
+                       <a href="#">Preço</a>
+                       <a href="#">Comunidade</a>
                        <a href="#">Enterprise</a>
                    </ul>
                </div>
@@ -52,7 +53,7 @@ const Navbar = () =>{
                            onClick={handleAuthClick} size="sm" variant="ghost">
                            Log In
                        </Button>
-                           <a href="#upload" className="cta">Get Started </a>
+                           <a href="#upload" className="cta">Inicie Aqui</a>
                         </>
                    )}
                </div>
