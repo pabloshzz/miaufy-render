@@ -1,5 +1,5 @@
 import { CheckCircle, ImageIcon, UploadIcon } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useOutletContext } from "react-router";
 import { PROGRESS_INTERVAL_MS, PROGRESS_STEP, REDIRECT_DELAY_MS } from "../lib/constants";
 
@@ -11,6 +11,17 @@ const Upload = ({ onComplete }: UploadProps) => {
     const [file, setFile] = useState<File | null>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [progress, setProgress] = useState(0);
+    const uploadIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+    const finishTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const isMounted = useRef(true);
+
+    useEffect(() => {
+        return () => {
+            isMounted.current = false;
+            if (uploadIntervalRef.current) clearInterval(uploadIntervalRef.current);
+            if (finishTimeoutRef.current) clearTimeout(finishTimeoutRef.current);
+        };
+    }, []);
 
     const { isSignedIn } = useOutletContext<AuthContext>();
 
@@ -20,13 +31,30 @@ const Upload = ({ onComplete }: UploadProps) => {
         setProgress(0);
 
         const reader = new FileReader();
+        reader.onerror = () => {
+            setFile(null);
+            setProgress(0);
+        };
         reader.onloadend = () => {
+            if (!isMounted.current) return;
             const base64 = reader.result as string;
-            const interval = setInterval(() => {
+            
+            if (uploadIntervalRef.current) clearInterval(uploadIntervalRef.current);
+            
+            uploadIntervalRef.current = setInterval(() => {
                 setProgress((prev) => {
                     if (prev >= 100) {
-                        clearInterval(interval);
-                        setTimeout(() => onComplete(base64), REDIRECT_DELAY_MS);
+                        if (uploadIntervalRef.current) {
+                            clearInterval(uploadIntervalRef.current);
+                            uploadIntervalRef.current = null;
+                        }
+                        
+                        finishTimeoutRef.current = setTimeout(() => {
+                            if (isMounted.current) {
+                                onComplete(base64);
+                            }
+                        }, REDIRECT_DELAY_MS);
+                        
                         return 100;
                     }
                     return prev + PROGRESS_STEP;
@@ -51,7 +79,8 @@ const Upload = ({ onComplete }: UploadProps) => {
         if (!isSignedIn) return;
 
         const droppedFile = e.dataTransfer.files[0];
-        if (droppedFile && droppedFile.type.startsWith("image/")) {
+        const allowedTypes = ["image/jpeg", "image/png"];
+        if (droppedFile && allowedTypes.includes(droppedFile.type)) {
             processFile(droppedFile);
         }
     };

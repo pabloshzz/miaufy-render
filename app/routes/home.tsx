@@ -18,11 +18,18 @@ export default function Home() {
   const navigate = useNavigate();
 
   const handleUploadComplete =  async (base64Image: string) => {
-      const newId  = Date.now().toString();
+      try {
+          const newId  = Date.now().toString();
 
-      navigate(`/visualizer/${newId}`);
+          // Persist the image to sessionStorage so the visualizer can retrieve it
+          sessionStorage.setItem(`upload_${newId}`, base64Image);
 
-      return true;
+          navigate(`/visualizer/${newId}`);
+          return true;
+      } catch (error) {
+          console.error("Failed to persist upload:", error);
+          return false;
+      }
   }
 
   return (
