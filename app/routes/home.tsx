@@ -4,6 +4,8 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Button from "../../components/ui/Button";
 import { Layers } from "lucide-react";
 import { Clock } from "lucide-react";
+import Upload from "../../components/Upload";
+import {useNavigate} from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,6 +15,23 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const navigate = useNavigate();
+
+  const handleUploadComplete =  async (base64Image: string) => {
+      try {
+          const newId  = Date.now().toString();
+
+          // Persist the image to sessionStorage so the visualizer can retrieve it
+          sessionStorage.setItem(`upload_${newId}`, base64Image);
+
+          navigate(`/visualizer/${newId}`);
+          return true;
+      } catch (error) {
+          console.error("Failed to persist upload:", error);
+          return false;
+      }
+  }
+
   return (
       <div className="home">
         <Navbar />
@@ -48,7 +67,7 @@ export default function Home() {
                   <p>Suporta arquivos JPG e PNG, até 10MB </p>
                 </div>
 
-                <p>Upload de imagem</p>
+                <Upload onComplete={handleUploadComplete} />
             </div>
           </div>
         </section>
