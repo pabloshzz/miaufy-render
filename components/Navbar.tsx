@@ -25,39 +25,38 @@ const Navbar = () =>{
     };
     return (
         <header className="navbar">
-           <nav className="inner">
-               <div className="left">
-                   <div className="brand">
-                     <Cat className="logo" />
-                       <span className="name">Miaufy</span>
-                   </div>
-                   <ul className="links">
-                       <a href="#">Produto</a>
-                       <a href="#">Preço</a>
-                       <a href="#">Comunidade</a>
-                       <a href="#">Enterprise</a>
-                   </ul>
-               </div>
-               <div className="actions">
-                   {isSignedIn ? (
-                       <>
-                           <span className="greeting">{userName ? `Hi, ${userName}` : 'Signed in'}</span>
-                           <Button size="sm" onClick={handleAuthClick} className="btn">
-                               Log Out
-                           </Button>
-                       </>
-
-                   ) : (
-                       <>
-                       <Button
-                           onClick={handleAuthClick} size="sm" variant="ghost">
-                           Log In
-                       </Button>
-                           <a href="#upload" className="cta">Inicie Aqui</a>
+            <nav className="inner">
+                <div className="left">
+                    <div className="brand">
+                        <Cat className="logo" />
+                        <span className="name">Miaufy</span>
+                    </div>
+                    <ul className="links">
+                        <a href="#">Produto</a>
+                        <a href="#">Preço</a>
+                        <a href="#">Comunidade</a>
+                    </ul>
+                </div>
+                <div className="actions">
+                    {isSignedIn ? (
+                        <>
+                            <span className="greeting">{userName ? `Olá, ${userName}` : 'Signed in'}</span>
+                                <Button size="sm" onClick={handleAuthClick} className="btn">
+                                    Log Out
+                                </Button>
                         </>
-                   )}
-               </div>
-           </nav>
+
+                    ) : (
+                        <>
+                            <Button
+                                onClick={handleAuthClick} size="sm" variant="ghost">
+                                Log In
+                            </Button>
+                            <a href="#upload" className="cta">Inicie Aqui</a>
+                        </>
+                    )}
+                </div>
+            </nav>
         </header>
 
     )

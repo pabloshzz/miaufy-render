@@ -494,7 +494,7 @@
           @apply flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6;
 
           .copy {
-            @apply max-w-2xl;
+            @apply max-w-3xl;
 
             h2 {
               @apply text-4xl font-serif text-black mb-4;
@@ -527,7 +527,7 @@
                 @apply absolute top-3 left-3 bg-white/90 backdrop-blur-md px-2 py-1 rounded-md border border-zinc-200 shadow-sm;
 
                 span {
-                  @apply text-[10px] font-bold uppercase tracking-wider text-zinc-800;
+                  @apply text-[11px] font-bold uppercase tracking-wider text-zinc-800;
                 }
               }
             }

@@ -1,8 +1,9 @@
 import type { Route } from "./+types/home";
 import Navbar from "../../components/Navbar";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import Button from "../../components/ui/Button";
 import { Layers } from "lucide-react";
+import { Clock } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -47,9 +48,47 @@ export default function Home() {
                   <p>Suporta arquivos JPG e PNG, até 10MB </p>
                 </div>
 
-                <p>Clique aqui</p>
+                <p>Upload de imagem</p>
             </div>
           </div>
+        </section>
+        <section className="projects">
+            <div className="section-inner">
+              <div className="section-head">
+                <div className="copy">
+                  <h2>Projetos</h2>
+                  <p>
+                    Seus últimos trabalhos e projetos compartilhados na comunidade, todos em um só lugar.
+                  </p>
+                </div>
+              </div>
+              <div className="projects-grid">
+                <div className="project-card group">
+                  <div className="preview">
+                    <img 
+                    src="https://roomify-mlhuk267-dfwu1i.puter.site/projects/1770803585402/rendered.png" alt="imagem renderizada"/>
+                    <div className="badge">
+                      <span>Comunidade</span>
+                    </div>
+                  </div>
+                  
+                  <div className="card-body">
+                    <div>
+                      <h3>Projeto Teste</h3>
+                      <div className="meta">
+                        <Clock size={12} />
+                        <span>{new Date('6.7.2026').toLocaleDateString()}</span>
+                        <span>Por Pablo Rafael</span>
+                      </div>
+                    </div>
+                    <div className="arrow">
+                      <ArrowUpRight size={18}/>
+                    </div>
+                  </div>
+              
+                </div>
+              </div>
+            </div>
         </section>
       </div>
   )
